@@ -11,7 +11,7 @@ jobs:
         run: |
           # Run the test
           pip install -r requirements.txt
-          pip install lightgbm --install-option=--cuda
+          pip install lightgbm --install-option=--gpu
           python baseline.py
           
           cml-publish feature_importance.png --md >> report.md
