@@ -20,8 +20,8 @@ jobs:
           dvc metrics diff main --targets test_score.json --show-md >> report.md
           
           # Print out the failure modes
-          echo "## Failure modes" >> report.md
-          cat failure_modes.txt >> report.md
+          # echo "## Failure modes" >> report.md
+          # cat failure_modes.txt >> report.md
           
           # Send it!
           cml-send-comment report.md
