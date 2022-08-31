@@ -12,7 +12,7 @@ jobs:
           # Run the test
           # apt-get update && apt-get install --no-install-recommends git cmake build-essential libboost-dev libboost-system-dev libboost-filesystem-dev
           pip install -r requirements.txt
-          pip install lightgbm # --install-option=--gpu
+          pip install lightgbm
           python baseline.py
           
           cml-publish feature_importance.png --md >> report.md
