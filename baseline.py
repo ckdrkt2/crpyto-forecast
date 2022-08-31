@@ -118,7 +118,7 @@ def reduce_mem_usage(df):
 
 feat = df_train
 feat = feat.drop(['Open', 'High', 'Low', 'Volume', 'quote_av', 'trades', 'tb_base_av', 'tb_quote_av'], axis=1)
-feat = reduce_mem_usage(feat)
+# feat = reduce_mem_usage(feat)
 
 not_use_features_train = ['Open_time', 'Target', 'timestamp']
 features = feat.columns
