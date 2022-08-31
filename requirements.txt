@@ -4,5 +4,4 @@ matplotlib
 seaborn
 lightgbm
 sklearn
-pickle
 tqdm
