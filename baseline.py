@@ -248,11 +248,11 @@ def get_Xy_and_model_for_asset(df_proc, model_type):
 
     plot_importance(np.array(importances), features, PLOT_TOP_N=20, figsize=(10, 5))
 
-get_Xy_and_model_for_asset(feat[feat['Open_time'] < '2022-01-01 00:00:00'], 'goss')
+get_Xy_and_model_for_asset(feat[feat['Open_time'] < '2022-07-01 00:00:00'], 'goss')
 
 # ensemble fold models
 models = []
-target_date = '2022-01-01 00:00:00'
+target_date = '2022-07-01 00:00:00'
 testX = feat[feat['Open_time'] >= target_date].drop(not_use_features_train, axis=1)
 testY = feat[feat['Open_time'] >= target_date]['Target']
 for i in range(7):
