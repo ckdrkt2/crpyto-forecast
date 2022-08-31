@@ -1,5 +1,8 @@
-transformers
-nlpaug
 pandas
-torch
-tabulate
+numpy
+matplotlib
+seaborn
+lightgbm
+sklearn
+pickle
+tqdm

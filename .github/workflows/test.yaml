@@ -9,19 +9,20 @@ jobs:
         env:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
         run: |
-
           # Run the test
           pip install -r requirements.txt
-          python run_perturbation_test.py
+          python baseline.py
           
-          # Report the diff
-          echo "## Workspace vs. Main" > report.md
-          git fetch --prune
-          dvc metrics diff main --targets test_score.json --show-md >> report.md
-          
-          # Print out the failure modes
-          echo "## Failure modes" >> report.md
-          cat failure_modes.txt >> report.md
-          
-          # Send it!
+          cml-publish feature_importance.png --md >> report.md
           cml-send-comment report.md
+#           Report the diff
+#          echo "## Workspace vs. Main" > report.md
+#          git fetch --prune
+#          dvc metrics diff main --targets test_score.json --show-md >> report.md
+
+#           Print out the failure modes
+#           echo "## Failure modes" >> report.md
+#           cat failure_modes.txt >> report.md
+#
+#           Send it!
+#          cml-send-comment report.md
