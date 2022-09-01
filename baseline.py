@@ -17,7 +17,7 @@ seed0 = 8586
 
 params = {
     'goss' : {
-        'num_boost_round': 100,
+        'num_boost_round': 1000,
         'early_stopping_rounds': 100,
         'objective': 'regression_l2',
         'metric': 'rmse',
@@ -236,7 +236,7 @@ def get_Xy_and_model_for_asset(df_proc, model_type):
                           train_set=train_dataset,
                           valid_sets=[train_dataset, val_dataset],
                           valid_names=['tr', 'vl'],
-                          verbose_eval=10,
+                          verbose_eval=100,
                           feval=correlation,
                           )
         importances.append(model.feature_importance(importance_type='gain'))
