@@ -2,7 +2,8 @@ name: perturbation-test
 on: [push]
 jobs:
   run:
-    runs-on: [self-hosted,cml,gpu]
+    runs-on: [self-hosted,gpu]
+    container: docker://dvcorg/cml-py3:latest
     steps:
       - uses: actions/checkout@v2
       - name: cml_run
