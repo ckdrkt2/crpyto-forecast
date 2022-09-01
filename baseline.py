@@ -75,7 +75,7 @@ params = {
 }
  
 df_train = pd.DataFrame()
-for year in range(2022, 2023):
+for year in range(2021, 2023):
     data0 = pd.read_csv('data/ada_{}.csv'.format(year))
     df_train = pd.concat([df_train, data0])
 df_close = df_train[['Open_time', 'Close']].shift(-360)
@@ -153,7 +153,7 @@ def plot_importance(importances, features_names=features, PLOT_TOP_N=20, figsize
     sns.boxplot(data=sorted_importance_df[plot_cols],
                 orient='h',
                 ax=ax)
-    plt.savefig("result.png", dpi=120)
+    plt.savefig("feature_importance.png", dpi=120)
     # plt.show()
 
 def get_time_series_cross_val_splits(data, cv=n_fold, embargo=3750):
@@ -226,9 +226,9 @@ for i in range(7):
         model = pickle.load(f)
     models.append(model.predict(testX))
 
-avg_of_model = 0.1 * models[0] + 0.1 * models[1] + 0.1 * models[2] + 0.1 * models[3] + 0.1 * models[4] + 0.1 * models[5] + 0.9 *models[6]
+avg_of_model = sum(models) / 7
 model_df = pd.concat([pd.DataFrame(avg_of_model), testY], axis=1)
 model_df.columns = ['predict', 'target']
 print("RMSE: ", mean_squared_error(testY, avg_of_model)**0.5, 'corr: ', model_df.corr()['predict']['target'])
 model_df.plot()
-# plt.savefig("result.png", dpi=120)
+plt.savefig("result.png", dpi=120)
