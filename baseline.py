@@ -84,41 +84,7 @@ df_train = df_train.drop('Symbol', axis=1)
 df_train = df_train.dropna()
 df_train['timestamp'] = pd.to_datetime(df_train['Open_time'], format='%Y-%m-%d %H:%M:%S').astype('int64') // 1000000000
 
-
-def reduce_mem_usage(df):
-    start_mem = df.memory_usage().sum() / 1024 ** 2
-    print('Memory usage of dataframe is {:.2f} MB'.format(start_mem))
-    for col in df.columns:
-        col_type = df[col].dtype
-
-        if col_type != object:
-            c_min = df[col].min()
-            c_max = df[col].max()
-            if str(col_type)[:3] == 'int':
-                if c_min > np.iinfo(np.int8).min and c_max < np.iinfo(np.int8).max:
-                    df[col] = df[col].astype(np.int8)
-                elif c_min > np.iinfo(np.int16).min and c_max < np.iinfo(np.int16).max:
-                    df[col] = df[col].astype(np.int16)
-                elif c_min > np.iinfo(np.int32).min and c_max < np.iinfo(np.int32).max:
-                    df[col] = df[col].astype(np.int32)
-                elif c_min > np.iinfo(np.int64).min and c_max < np.iinfo(np.int64).max:
-                    df[col] = df[col].astype(np.int64)
-            else:
-                if c_min > np.finfo(np.float16).min and c_max < np.finfo(np.float16).max:
-                    df[col] = df[col].astype(np.float16)
-                elif c_min > np.finfo(np.float32).min and c_max < np.finfo(np.float32).max:
-                    df[col] = df[col].astype(np.float32)
-                else:
-                    df[col] = df[col].astype(np.float64)
-    end_mem = df.memory_usage().sum() / 1024 ** 2
-    print('Memory usage after optimization is: {:.2f} MB'.format(end_mem))
-    print('Decreased by {:.1f}%'.format(100 * (start_mem - end_mem) / start_mem))
-    return df
-
-
 feat = df_train
-feat = feat.drop(['Open', 'High', 'Low', 'Volume', 'quote_av', 'trades', 'tb_base_av', 'tb_quote_av'], axis=1)
-# feat = reduce_mem_usage(feat)
 
 not_use_features_train = ['Open_time', 'Target', 'timestamp']
 features = feat.columns
@@ -260,7 +226,7 @@ for i in range(7):
         model = pickle.load(f)
     models.append(model.predict(testX))
 
-avg_of_model = sum(models) / 7
+avg_of_model = 0.1 * models[0] + 0.1 * models[1] + 0.1 * models[2] + 0.1 * models[3] + 0.1 * models[4] + 0.1 * models[5] + 0.9 *models[6]
 model_df = pd.concat([pd.DataFrame(avg_of_model), testY], axis=1)
 model_df.columns = ['predict', 'target']
 print("RMSE: ", mean_squared_error(testY, avg_of_model)**0.5, 'corr: ', model_df.corr()['predict']['target'])
