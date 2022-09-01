@@ -153,7 +153,7 @@ def plot_importance(importances, features_names=features, PLOT_TOP_N=20, figsize
     sns.boxplot(data=sorted_importance_df[plot_cols],
                 orient='h',
                 ax=ax)
-    plt.savefig("feature_importance.png", dpi=120)
+    plt.savefig("result.png", dpi=120)
     # plt.show()
 
 def get_time_series_cross_val_splits(data, cv=n_fold, embargo=3750):
@@ -231,4 +231,4 @@ model_df = pd.concat([pd.DataFrame(avg_of_model), testY], axis=1)
 model_df.columns = ['predict', 'target']
 print("RMSE: ", mean_squared_error(testY, avg_of_model)**0.5, 'corr: ', model_df.corr()['predict']['target'])
 model_df.plot()
-plt.savefig("result.png", dpi=120)
+# plt.savefig("result.png", dpi=120)
