@@ -73,7 +73,7 @@ params = {
         "device": "gpu",
     }
 }
-
+ 
 df_train = pd.DataFrame()
 for year in range(2022, 2023):
     data0 = pd.read_csv('data/ada_{}.csv'.format(year))
