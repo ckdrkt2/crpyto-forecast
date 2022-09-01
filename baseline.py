@@ -225,7 +225,7 @@ for i in range(7):
     with open('./trained_model_fold{}.pkl'.format(i), 'rb') as f:
         model = pickle.load(f)
     models.append(model.predict(testX))
-
+ 
 avg_of_model = sum(models) / 7
 model_df = pd.concat([pd.DataFrame(avg_of_model), testY], axis=1)
 model_df.columns = ['predict', 'target']
