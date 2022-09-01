@@ -15,7 +15,7 @@ jobs:
           pip install lightgbm # --install-option=--gpu
           python baseline.py
           
-          cml-publish feature_importance.png --md >> report.md
+          cml-publish result.png --md >> report.md
           cml-send-comment report.md
 #           Report the diff
 #          echo "## Workspace vs. Main" > report.md

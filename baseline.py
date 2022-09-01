@@ -264,4 +264,5 @@ avg_of_model = sum(models) / 7
 model_df = pd.concat([pd.DataFrame(avg_of_model), testY], axis=1)
 model_df.columns = ['predict', 'target']
 print("RMSE: ", mean_squared_error(testY, avg_of_model)**0.5, 'corr: ', model_df.corr()['predict']['target'])
-# model_df.plot()
+model_df.plot()
+plt.savefig("result.png", dpi=120)
