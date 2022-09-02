@@ -22,6 +22,10 @@ jobs:
           
           python baseline.py
           
+          echo "## feature importances" >> report.md
+          cml-publush feature_importance.png --md >> report.md
+          
+          echo "## prediction result" >> report.md
           cml-publish result.png --md >> report.md
           cml-send-comment report.md
 
