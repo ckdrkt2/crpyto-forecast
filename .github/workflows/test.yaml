@@ -3,8 +3,9 @@ on: [push]
 jobs:
   run:
     runs-on: [self-hosted,cml,gpu]
+    container: docker://dvcorg/cml-py3:latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: cml_run
         env:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
