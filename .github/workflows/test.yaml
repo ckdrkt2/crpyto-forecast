@@ -2,8 +2,7 @@ name: perturbation-test
 on: [push]
 jobs:
   run:
-    runs-on: [self-hosted,gpu]
-    container: docker://dvcorg/cml-py3:latest
+    runs-on: [self-hosted,cml,gpu]
     steps:
       - uses: actions/checkout@v2
       - name: cml_run
@@ -12,23 +11,18 @@ jobs:
         run: |
           # Run the test
           # apt-get update && apt-get install --no-install-recommends git cmake build-essential libboost-dev libboost-system-dev libboost-filesystem-dev
+          
           pip install -r requirements.txt
           pip install lightgbm # --install-option=--gpu
+          
+          # load data
+          dvc pull data
+          
           python baseline.py
           
           cml-publish result.png --md >> report.md
           cml-send-comment report.md
-#           Report the diff
-#          echo "## Workspace vs. Main" > report.md
-#          git fetch --prune
-#          dvc metrics diff main --targets test_score.json --show-md >> report.md
 
-#           Print out the failure modes
-#           echo "## Failure modes" >> report.md
-#           cat failure_modes.txt >> report.md
-#
-#           Send it!
-#          cml-send-comment report.md
       - name: action-slack
         uses: 8398a7/action-slack@v3
         with:
