@@ -18,7 +18,7 @@ jobs:
           cml-publish result.png --md >> report.md
           cml-send-comment report.md
 #           Report the diff
-#          echo "## Workspace vs. Main" > report.md
+#          echo "## Workspace vs. Main " > report.md
 #          git fetch --prune
 #          dvc metrics diff main --targets test_score.json --show-md >> report.md
 
