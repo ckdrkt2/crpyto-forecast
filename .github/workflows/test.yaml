@@ -31,6 +31,7 @@ jobs:
           cml-publish result.png --md >> report.md
           cml-send-comment report.md
 
+
       - name: action-slack
         uses: 8398a7/action-slack@v3
         with:
