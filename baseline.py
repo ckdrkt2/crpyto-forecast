@@ -9,7 +9,7 @@ import time
 import datetime
 import pickle
 
-from sklearn.metrics import mean_squared_error, mean_absolute_error
+from sklearn.metrics import mean_squared_error
 from tqdm import tqdm
 
 n_fold = 7
@@ -40,7 +40,7 @@ params = {
         'extra_seed': seed0,
         'zero_as_missing': True,
         "first_metric_only": True,
-#         "device": "gpu",
+        # "device": "gpu",
     },
     'gbdt' : {
         'num_boost_round': 1000,
@@ -75,7 +75,7 @@ params = {
 }
  
 df_train = pd.DataFrame()
-for year in range(2021, 2023):
+for year in range(2018, 2023):
     data0 = pd.read_csv('data/ada_{}.csv'.format(year))
     df_train = pd.concat([df_train, data0])
 df_close = df_train[['Open_time', 'Close']].shift(-360)
@@ -214,18 +214,18 @@ def get_Xy_and_model_for_asset(df_proc, model_type):
 
     plot_importance(np.array(importances), features, PLOT_TOP_N=20, figsize=(10, 5))
 
-get_Xy_and_model_for_asset(feat[feat['Open_time'] < '2022-07-01 00:00:00'], 'goss')
+get_Xy_and_model_for_asset(feat[feat['Open_time'] < '2022-01-01 00:00:00'], 'goss')
 
 # ensemble fold models
 models = []
-target_date = '2022-07-01 00:00:00'
+target_date = '2022-01-01 00:00:00'
 testX = feat[feat['Open_time'] >= target_date].drop(not_use_features_train, axis=1)
 testY = feat[feat['Open_time'] >= target_date]['Target']
 for i in range(7):
     with open('./trained_model_fold{}.pkl'.format(i), 'rb') as f:
         model = pickle.load(f)
     models.append(model.predict(testX))
-
+ 
 avg_of_model = sum(models) / 7
 model_df = pd.concat([pd.DataFrame(avg_of_model), testY], axis=1)
 model_df.columns = ['predict', 'target']
