@@ -17,7 +17,7 @@ seed0 = 8586
 
 params = {
     'goss' : {
-        'num_boost_round': 100,
+        'num_boost_round': 1000,
         'early_stopping_rounds': 100,
         'objective': 'regression_l2',
         'metric': 'rmse',
@@ -40,7 +40,7 @@ params = {
         'extra_seed': seed0,
         'zero_as_missing': True,
         "first_metric_only": True,
-#         "device": "gpu",
+        "device": "gpu",
     },
     'gbdt' : {
         'num_boost_round': 1000,
@@ -73,9 +73,9 @@ params = {
         "device": "gpu",
     }
 }
-
+ 
 df_train = pd.DataFrame()
-for year in range(2022, 2023):
+for year in range(2018, 2023):
     data0 = pd.read_csv('data/ada_{}.csv'.format(year))
     df_train = pd.concat([df_train, data0])
 df_close = df_train[['Open_time', 'Close']].shift(-360)
@@ -84,41 +84,7 @@ df_train = df_train.drop('Symbol', axis=1)
 df_train = df_train.dropna()
 df_train['timestamp'] = pd.to_datetime(df_train['Open_time'], format='%Y-%m-%d %H:%M:%S').astype('int64') // 1000000000
 
-
-def reduce_mem_usage(df):
-    start_mem = df.memory_usage().sum() / 1024 ** 2
-    print('Memory usage of dataframe is {:.2f} MB'.format(start_mem))
-    for col in df.columns:
-        col_type = df[col].dtype
-
-        if col_type != object:
-            c_min = df[col].min()
-            c_max = df[col].max()
-            if str(col_type)[:3] == 'int':
-                if c_min > np.iinfo(np.int8).min and c_max < np.iinfo(np.int8).max:
-                    df[col] = df[col].astype(np.int8)
-                elif c_min > np.iinfo(np.int16).min and c_max < np.iinfo(np.int16).max:
-                    df[col] = df[col].astype(np.int16)
-                elif c_min > np.iinfo(np.int32).min and c_max < np.iinfo(np.int32).max:
-                    df[col] = df[col].astype(np.int32)
-                elif c_min > np.iinfo(np.int64).min and c_max < np.iinfo(np.int64).max:
-                    df[col] = df[col].astype(np.int64)
-            else:
-                if c_min > np.finfo(np.float16).min and c_max < np.finfo(np.float16).max:
-                    df[col] = df[col].astype(np.float16)
-                elif c_min > np.finfo(np.float32).min and c_max < np.finfo(np.float32).max:
-                    df[col] = df[col].astype(np.float32)
-                else:
-                    df[col] = df[col].astype(np.float64)
-    end_mem = df.memory_usage().sum() / 1024 ** 2
-    print('Memory usage after optimization is: {:.2f} MB'.format(end_mem))
-    print('Decreased by {:.1f}%'.format(100 * (start_mem - end_mem) / start_mem))
-    return df
-
-
 feat = df_train
-feat = feat.drop(['Open', 'High', 'Low', 'Volume', 'quote_av', 'trades', 'tb_base_av', 'tb_quote_av'], axis=1)
-# feat = reduce_mem_usage(feat)
 
 not_use_features_train = ['Open_time', 'Target', 'timestamp']
 features = feat.columns
@@ -236,7 +202,7 @@ def get_Xy_and_model_for_asset(df_proc, model_type):
                           train_set=train_dataset,
                           valid_sets=[train_dataset, val_dataset],
                           valid_names=['tr', 'vl'],
-                          verbose_eval=10,
+                          verbose_eval=100,
                           feval=correlation,
                           )
         importances.append(model.feature_importance(importance_type='gain'))
@@ -248,20 +214,21 @@ def get_Xy_and_model_for_asset(df_proc, model_type):
 
     plot_importance(np.array(importances), features, PLOT_TOP_N=20, figsize=(10, 5))
 
-get_Xy_and_model_for_asset(feat[feat['Open_time'] < '2022-07-01 00:00:00'], 'goss')
+get_Xy_and_model_for_asset(feat[feat['Open_time'] < '2022-01-01 00:00:00'], 'goss')
 
 # ensemble fold models
 models = []
-target_date = '2022-07-01 00:00:00'
+target_date = '2022-01-01 00:00:00'
 testX = feat[feat['Open_time'] >= target_date].drop(not_use_features_train, axis=1)
 testY = feat[feat['Open_time'] >= target_date]['Target']
 for i in range(7):
     with open('./trained_model_fold{}.pkl'.format(i), 'rb') as f:
         model = pickle.load(f)
     models.append(model.predict(testX))
-
+ 
 avg_of_model = sum(models) / 7
 model_df = pd.concat([pd.DataFrame(avg_of_model), testY], axis=1)
 model_df.columns = ['predict', 'target']
 print("RMSE: ", mean_squared_error(testY, avg_of_model)**0.5, 'corr: ', model_df.corr()['predict']['target'])
-# model_df.plot()
+model_df.plot()
+plt.savefig("result.png", dpi=120)
