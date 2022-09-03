@@ -9,7 +9,7 @@ import time
 import datetime
 import pickle
 
-from sklearn.metrics import mean_squared_error, mean_absolute_error
+from sklearn.metrics import mean_squared_error
 from tqdm import tqdm
 
 n_fold = 7
@@ -75,7 +75,7 @@ params = {
 }
  
 df_train = pd.DataFrame()
-for year in range(2021, 2023):
+for year in range(2018, 2023):
     data0 = pd.read_csv('data/ada_{}.csv'.format(year))
     df_train = pd.concat([df_train, data0])
 df_close = df_train[['Open_time', 'Close']].shift(-360)
