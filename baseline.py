@@ -40,7 +40,7 @@ params = {
         'extra_seed': seed0,
         'zero_as_missing': True,
         "first_metric_only": True,
-        "device": "gpu",
+        # "device": "gpu",
     },
     'gbdt' : {
         'num_boost_round': 1000,
