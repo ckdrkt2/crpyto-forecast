@@ -10,6 +10,9 @@ jobs:
         with:
           node-version: '16'
       - uses: iterative/setup-cml@v1
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
       - name: cml_run
         env:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
@@ -30,7 +33,6 @@ jobs:
           echo "## prediction result" >> report.md
           cml-publish result.png --md >> report.md
           cml-send-comment report.md
-
 
       - name: action-slack
         uses: 8398a7/action-slack@v3
