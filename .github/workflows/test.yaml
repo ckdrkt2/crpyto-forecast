@@ -11,6 +11,10 @@ jobs:
         with:
           node-version: '16'
       - uses: iterative/setup-cml@v1
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v0'
+        with:
+          credentials_json: '${{ secrets.GOOGLE_CREDENTIALS }}'
       - name: cml_run
         env:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
