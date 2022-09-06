@@ -25,7 +25,7 @@ jobs:
           # pip install lightgbm --install-option=--cuda
           
           # load data 
-          dvc pull data
+          # dvc pull data
           echo ====================================================== 
           python baseline.py
           
