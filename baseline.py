@@ -9,7 +9,7 @@ import time
 import datetime
 import pickle
 
-from sklearn.metrics import mean_squared_error, mean_absolute_error
+from sklearn.metrics import mean_squared_error
 from tqdm import tqdm
 
 n_fold = 7
