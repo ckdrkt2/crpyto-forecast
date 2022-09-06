@@ -3,9 +3,14 @@ on: [push]
 jobs:
   run:
     runs-on: [self-hosted,cml,gpu]
-    container: docker://dvcorg/cml-py3:latest
+    container: docker://blonc/lightgbm-gpu
+    # container: docker://dvcorg/cml-py3:latest
     steps:
       - uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - uses: iterative/setup-cml@v1
       - name: cml_run
         env:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
@@ -13,7 +18,7 @@ jobs:
           # Run the test
           pip install -r requirements.txt
           pip install dvc[gs]
-          pip install lightgbm --install-option=--cuda
+          # pip install lightgbm --install-option=--cuda
           
           # load data 
           dvc pull data
