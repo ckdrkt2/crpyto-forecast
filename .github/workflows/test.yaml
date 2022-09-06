@@ -17,8 +17,10 @@ jobs:
         run: |
           # Run the test
           pip install -r requirements.txt
+          echo ======================================================================================
           pip install dvc[gs]
           # pip install lightgbm --install-option=--cuda
+          echo ======================================================================================
           
           # load data 
           dvc pull data
