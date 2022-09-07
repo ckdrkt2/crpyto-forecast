@@ -26,7 +26,6 @@ jobs:
           
           # load data 
           dvc pull data
-          # echo ====================================================== 
           python3 baseline.py
           
           echo "## feature importances" >> report.md
