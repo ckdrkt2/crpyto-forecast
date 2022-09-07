@@ -23,7 +23,7 @@ params = {
         'metric': 'rmse',
         'boosting_type': 'goss',
         'max_depth': -1,
-    #     'num_leaves': 127,
+    #     'num_leaves': 127, 
         'verbose': -1,
         'max_bin': 255,
         'min_data_in_leaf':1000,
