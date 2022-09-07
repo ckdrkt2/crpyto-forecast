@@ -3,7 +3,7 @@ on: [push]
 jobs:
   run:
     runs-on: [self-hosted,cml,gpu]
-    container: docker://blonc/lightgbm-gpu:latest
+    # container: docker://blonc/lightgbm-gpu:latest
     # container: docker://dvcorg/cml-py3:latest
     steps:
       - uses: actions/checkout@v3
