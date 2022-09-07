@@ -25,9 +25,9 @@ jobs:
           # pip install lightgbm --install-option=--cuda
           
           # load data 
-          # dvc pull data
-          echo ====================================================== 
-          python baseline.py
+          dvc pull data
+          # echo ====================================================== 
+          python3 baseline.py
           
           echo "## feature importances" >> report.md
           cml-publish feature_importance.png --md >> report.md
