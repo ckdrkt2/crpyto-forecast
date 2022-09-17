@@ -27,5 +27,5 @@ for col in info:
         cur.fetchall()
     else:
         query = "insert into {}(timestamp, Date, Close, Open, High, Low) values (%s, %s, %s, %s, %s, %s)".format(col)
-        cur.execute(query, [stamp, today, data['Close'], data['Open'], data['High'], data['Low'], data['Volume']])
+        cur.execute(query, [stamp, today, data['Close'], data['Open'], data['High'], data['Low']])
         cur.fetchall()
