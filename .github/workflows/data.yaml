@@ -10,6 +10,9 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
         run: |
           
+          # install requirements
+          pip3 install pymysql
+          
           # load data 
           python3 src/update_data.py
 
