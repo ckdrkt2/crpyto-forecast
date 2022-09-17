@@ -21,7 +21,7 @@ for col in info:
     df = df.reset_index()
     data = dict(df.iloc[0])
 
-    query = "insert into {}(timestamp, Date, Close, Open, High, Low, volume) values (%s %s %s %s %s %s %s)".format(col)
+    query = "insert into {}(timestamp, Date, Close, Open, High, Low, volume) values (%s %s %s %s %s %s %s);".format(col)
     print(query)
     cur.execute(query, (stamp, today, data['Close'], data['Open'], data['High'], data['Low'], data['Volume']))
     cur.fetchall()
