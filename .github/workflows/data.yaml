@@ -10,7 +10,7 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
         run: |
           
-          # load data
+          # load data 
           python3 src/update_data.py
 
       - name: action-slack
