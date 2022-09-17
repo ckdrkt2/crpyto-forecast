@@ -11,7 +11,7 @@ jobs:
         run: |
           
           # install requirements
-          pip3 install pymysql
+          pip3 install -r src/requirements.txt 
           
           # load data 
           python3 src/update_data.py
