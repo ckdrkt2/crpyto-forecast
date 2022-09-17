@@ -22,10 +22,10 @@ for col in info:
     data = dict(df.iloc[0])
 
     if info[col] == 7:
-        query = "insert into {}(timestamp, Date, Close, Open, High, Low, volume) values (%s, %s, %s, %s, %s, %s, %s)".format(col)
+        query = "insert into `{}`(timestamp, Date, Close, Open, High, Low, volume) values (%s, %s, %s, %s, %s, %s, %s)".format(col)
         cur.execute(query, [stamp, today, data['Close'], data['Open'], data['High'], data['Low'], data['Volume']])
         cur.fetchall()
     else:
-        query = "insert into {}(timestamp, Date, Close, Open, High, Low) values (%s, %s, %s, %s, %s, %s)".format(col)
+        query = "insert into `{}`(timestamp, Date, Close, Open, High, Low) values (%s, %s, %s, %s, %s, %s)".format(col)
         cur.execute(query, [stamp, today, data['Close'], data['Open'], data['High'], data['Low']])
         cur.fetchall()
