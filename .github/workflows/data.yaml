@@ -10,6 +10,7 @@ jobs:
         run: |
           
           # load data
+          pwd
           python3 src/update_data.py
 
       - name: action-slack
