@@ -1,5 +1,8 @@
 name: perturbation-test
-on: [push]
+on:
+  push:
+    branches:
+      - 1day
 jobs:
   run:
     runs-on: [self-hosted]
