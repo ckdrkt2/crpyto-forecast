@@ -24,6 +24,7 @@ jobs:
           pip3 install -r src/train/requirements.txt
           
           # train model
+          mkdir models
           python3 src/train/train.py
           
           echo "## feature importances" >> report.md
