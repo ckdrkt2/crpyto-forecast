@@ -16,11 +16,14 @@ jobs:
         uses: 'google-github-actions/auth@v0'
         with:
           credentials_json: '${{ secrets.GOOGLE_CREDENTIALS }}'
-      - name: cml_run
+      - name: model train
         env:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # load data 
+          # install requirements
+          pip3 install -r src/train/requirements.txt
+          
+          # train model
           python3 src/train/train.py
           
           echo "## feature importances" >> report.md
