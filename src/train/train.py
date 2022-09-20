@@ -36,7 +36,7 @@ params = {
 # load data
 conn = pymysql.connect(host='192.168.153.110', port=31802, user='root', password='tmaxfintech', db='COINS', charset='utf8', autocommit=True, cursorclass=pymysql.cursors.DictCursor)
 cur = conn.cursor()
-cur.execute("select * from ADA where Time >= 1609426800000;")
+cur.execute("select * from ADA where Time >= 1656601200000;")
 df = pd.DataFrame(cur.fetchall())
 
 # feature engineering
