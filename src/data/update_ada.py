@@ -7,6 +7,7 @@ from time import sleep
 # get last data timestamp
 conn = pymysql.connect(host='192.168.153.110', port=31802, user='root', password='tmaxfintech', db='COINS', charset='utf8', autocommit=True, cursorclass=pymysql.cursors.DictCursor)
 cur = conn.cursor()
+cur.execute("select max(Time) from ADA;")
 start = cur.fetchall()[0]['max(Time)'] + 60000
 
 # update ada data
@@ -29,5 +30,4 @@ while True:
         db_connection = create_engine('mysql+pymysql://root:tmaxfintech@192.168.153.110:31802/COINS')
         df.to_sql(name='ADA', con=db_connection, if_exists='append', index=False)
 
-    sleep(20)
     break
