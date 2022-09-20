@@ -2,7 +2,7 @@ name: train
 on:
   push:
     branches:
-      - main
+      - 1min
 jobs:
   run:
     runs-on: [self-hosted]
@@ -40,8 +40,8 @@ jobs:
         uses: 8398a7/action-slack@v3
         with:
           status: ${{ job.status }}
-          author_name: Model Training # default: 8398a7@action-slack
+          author_name: Model Training
           fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
-        if: always() # Pick up events even if the job fails or is canceled.
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: always()
