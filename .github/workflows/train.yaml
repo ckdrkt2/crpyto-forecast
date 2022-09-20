@@ -2,12 +2,10 @@ name: perturbation-test
 on:
   push:
     branches:
-      - main
+      - 1min
 jobs:
   run:
-    runs-on: [self-hosted,cml,gpu]
-    # container: docker://blonc/lightgbm-gpu:latest
-    # container: docker://dvcorg/cml-py3:latest 
+    runs-on: [self-hosted]
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v2
@@ -22,26 +20,30 @@ jobs:
         env:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Run the test
-          # pip install -r requirements.txt
-          # pip install dvc[gs]
-          
           # load data 
-          dvc pull data
-          python3 baseline.py
+          python3 src/train/train.py
           
           echo "## feature importances" >> report.md
           cml-publish feature_importance.png --md >> report.md
           
-          echo "## prediction result" >> report.md
+          echo "## train result" >> report.md
           cml-publish result.png --md >> report.md
+          
+          echo '## train scores" >> report.md
+          cml-publish score.json --md >> report.md
+          
           cml-send-comment report.md
+
+      - name: save model file
+        uses: actions/upload-artifact@v3
+        with:
+          path: trained_model_fold*
 
       - name: action-slack
         uses: 8398a7/action-slack@v3
         with:
           status: ${{ job.status }}
-          author_name: Github Action Test # default: 8398a7@action-slack
+          author_name: Model Training # default: 8398a7@action-slack
           fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required

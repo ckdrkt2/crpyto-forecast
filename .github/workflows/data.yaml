@@ -1,29 +1,20 @@
 name: perturbation-test
 on:
-  schedule:
-    - cron: "0 0 * * *"
+  push:
+    branches:
+      - 1min
 jobs:
   run:
     runs-on: [self-hosted]
     steps:
       - uses: actions/checkout@v3
-      - name: update_data
+      - name: update_ADA_data
         env:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
         run: |
           
           # install requirements
-          pip3 install -r src/requirements.txt 
+          pip3 install -r src/data/requirements.txt
           
           # load data 
-          python3 src/update_data.py
-
-      - name: action-slack
-        uses: 8398a7/action-slack@v3
-        with:
-          status: ${{ job.status }}
-          author_name: Update data
-          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
-        if: always() # Pick up events even if the job fails or is canceled.
+          python3 src/data/update_ada.py
