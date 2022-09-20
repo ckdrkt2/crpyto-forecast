@@ -1,5 +1,4 @@
 pandas
 numpy
-matplotlib
-seaborn
-sklearn
+pymysql
+lightgbm
