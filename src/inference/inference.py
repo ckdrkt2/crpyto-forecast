@@ -1,7 +1,6 @@
 import pandas as pd
 import pickle
 import pymysql
-import json
 import datetime
 
 n_fold = 7
@@ -24,5 +23,9 @@ for i in range(n_fold):
     models.append(model.predict(df))
 
 avg_of_model = sum(models) / n_fold
-date = str(datetime.datetime.fromtimestamp(target_time // 1000))
+date = datetime.datetime.fromtimestamp(target_time // 1000)
 print(date, ":", avg_of_model[0])
+
+# update predict price
+cur.execute("insert into P_ADA values (%s, %s);", (date, avg_of_model[0]))
+conn.close()
