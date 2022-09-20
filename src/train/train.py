@@ -47,7 +47,7 @@ features = features.drop(not_use_features_train)
 features = list(features)
 
 # train
-train = feat
+train = feat[feat['Time'] >= 1609426800000]
 get_Xy_and_model_for_asset(train, 'goss')
 
 # model result
