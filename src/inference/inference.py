@@ -2,6 +2,7 @@ import pandas as pd
 import pickle
 import pymysql
 import json
+import datetime
 
 n_fold = 7
 symbol = "ADAUSDT"
@@ -11,8 +12,10 @@ interval = "1m"
 conn = pymysql.connect(host='192.168.153.110', port=31802, user='root', password='tmaxfintech', db='COINS', charset='utf8', autocommit=True, cursorclass=pymysql.cursors.DictCursor)
 cur = conn.cursor()
 cur.execute("select max(Time) from ADA;")
-cur.execute("select * from ADA where Time = %s;", (cur.fetchall()[0]['max(Time)']))
+target_time = cur.fetchall()[0]['max(Time)']
+cur.execute("select * from ADA where Time = %s;", (target_time))
 df = pd.DataFrame(cur.fetchall()).drop(['Time'], axis=1)
+
 # model result
 models = []
 for i in range(n_fold):
@@ -21,6 +24,6 @@ for i in range(n_fold):
     models.append(model.predict(df))
 
 avg_of_model = sum(models) / n_fold
-print(avg_of_model)
-# with open("score.json", "w") as outfile:
-#     json.dump({'result': avg_of_model}, outfile)
+date = datetime.datetime.fromtimestamp(target_time // 1000)
+with open("score.json", "w") as outfile:
+    json.dump({date: avg_of_model[0]}, outfile)

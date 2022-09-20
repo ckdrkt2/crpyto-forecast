@@ -29,5 +29,9 @@ jobs:
           # inference
           python3 src/inference/inference.py
 
-      - name: Display structure of download files
-        run: ls -R
+      - name: Show result
+        run: |
+          echo "## model result" >> report.md
+          cml-publish score.json --md >> report.md
+
+          cml-send-comment report.md
