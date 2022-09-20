@@ -51,18 +51,18 @@ train = feat
 get_Xy_and_model_for_asset(train, 'goss', n_fold, features, params)
 
 # model result
-models = []
-for i in range(n_fold):
-    with open('trained_model_fold{}.pkl'.format(i), 'rb') as f:
-        model = pickle.load(f)
-    models.append(model.predict(train))
-
-avg_of_model = sum(models) / n_fold
-model_df = pd.concat([pd.DataFrame(avg_of_model), train['Target']], axis=1)
-model_df.columns = ['predict', 'target']
-rmse, corr = mean_squared_error(train['Target'], avg_of_model) ** 0.5, model_df.corr()['predict']['target']
-print("RMSE: ", rmse, 'corr: ', corr)
-with open("score.json", "w") as outfile:
-    json.dump({'RMSE': rmse, "corr": corr}, outfile)
-plt.savefig("result.png", dpi=120)
+# models = []
+# for i in range(n_fold):
+#     with open('trained_model_fold{}.pkl'.format(i), 'rb') as f:
+#         model = pickle.load(f)
+#     models.append(model.predict(train))
+#
+# avg_of_model = sum(models) / n_fold
+# model_df = pd.concat([pd.DataFrame(avg_of_model), train['Target']], axis=1)
+# model_df.columns = ['predict', 'target']
+# rmse, corr = mean_squared_error(train['Target'], avg_of_model) ** 0.5, model_df.corr()['predict']['target']
+# print("RMSE: ", rmse, 'corr: ', corr)
+# with open("score.json", "w") as outfile:
+#     json.dump({'RMSE': rmse, "corr": corr}, outfile)
+# plt.savefig("result.png", dpi=120)
 # model_df.plot()

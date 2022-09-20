@@ -29,11 +29,11 @@ jobs:
           echo "## feature importances" >> report.md
           cml-publish feature_importance.png --md >> report.md
           
-          echo "## train result" >> report.md
-          cml-publish result.png --md >> report.md
-          
-          echo '## train scores" >> report.md
-          cml-publish score.json --md >> report.md
+#          echo "## train result" >> report.md
+#          cml-publish result.png --md >> report.md
+#
+#          echo '## train scores" >> report.md
+#          cml-publish score.json --md >> report.md
           
           cml-send-comment report.md
 
