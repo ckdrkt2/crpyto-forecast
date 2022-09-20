@@ -3,7 +3,6 @@ on:
   push:
     branches:
       - main
-      - 1min
 jobs:
   run:
     runs-on: [self-hosted]
