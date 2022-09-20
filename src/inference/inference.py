@@ -15,13 +15,13 @@ cur.execute("select * from ADA where Time = %s;", (cur.fetchall()[0]['max(Time)'
 df = pd.DataFrame(cur.fetchall())
 
 # model result
-# models = []
-# for i in range(n_fold):
-#     with open('trained_model_fold{}.pkl'.format(i), 'rb') as f:
-#         model = pickle.load(f)
-#     models.append(model.predict(df))
-#
-# avg_of_model = sum(models) / n_fold
-# print(avg_of_model)
+models = []
+for i in range(n_fold):
+    with open('models/trained_model_fold{}.pkl'.format(i), 'rb') as f:
+        model = pickle.load(f)
+    models.append(model.predict(df))
+
+avg_of_model = sum(models) / n_fold
+print(avg_of_model)
 # with open("score.json", "w") as outfile:
 #     json.dump({'result': avg_of_model}, outfile)

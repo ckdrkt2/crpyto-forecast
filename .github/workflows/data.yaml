@@ -2,7 +2,6 @@ name: data
 on:
   push:
     branches:
-      - 1min
       - main
 jobs:
   run:
