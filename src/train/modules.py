@@ -67,7 +67,7 @@ def plot_importance(importances, features_names, PLOT_TOP_N=20, figsize=(10, 10)
     ax.set_xlabel('Importance')
     sns.boxplot(data=sorted_importance_df[plot_cols], orient='h', ax=ax)
     plt.savefig("feature_importance.png", dpi=120)
-    plt.show()
+    # plt.show()
 
 def get_time_series_cross_val_splits(data, cv=7, embargo=3750):
     all_train_timestamps = data['Time'].unique()

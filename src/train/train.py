@@ -36,7 +36,7 @@ params = {
 # load data
 conn = pymysql.connect(host='192.168.153.110', port=31802, user='root', password='tmaxfintech', db='COINS', charset='utf8', autocommit=True, cursorclass=pymysql.cursors.DictCursor)
 cur = conn.cursor()
-cur.execute("select * from ADA;")
+cur.execute("select * from ADA where Time >= 1609426800000;")
 df = pd.DataFrame(cur.fetchall())
 
 # feature engineering
@@ -47,7 +47,7 @@ features = features.drop(not_use_features_train)
 features = list(features)
 
 # train
-train = feat[feat['Time'] >= 1609426800000]
+train = feat
 get_Xy_and_model_for_asset(train, 'goss')
 
 # model result
