@@ -12,8 +12,7 @@ conn = pymysql.connect(host='192.168.153.110', port=31802, user='root', password
 cur = conn.cursor()
 cur.execute("select max(Time) from ADA;")
 cur.execute("select * from ADA where Time = %s;", (cur.fetchall()[0]['max(Time)']))
-df = pd.DataFrame(cur.fetchall())
-
+df = pd.DataFrame(cur.fetchall()).drop(['Time'], axis=1)
 # model result
 models = []
 for i in range(n_fold):
