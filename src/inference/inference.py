@@ -25,5 +25,4 @@ for i in range(n_fold):
 
 avg_of_model = sum(models) / n_fold
 date = str(datetime.datetime.fromtimestamp(target_time // 1000))
-with open("score.json", "w") as outfile:
-    json.dump({date: avg_of_model[0]}, outfile)
+print(date, ":", avg_of_model[0])

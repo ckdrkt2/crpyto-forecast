@@ -8,10 +8,10 @@ jobs:
     runs-on: [self-hosted]
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '16'
-      - uses: iterative/setup-cml@v1
+      #- uses: actions/setup-node@v2
+      #  with:
+      #    node-version: '16'
+      #- uses: iterative/setup-cml@v1
       - id: 'auth'
         uses: 'google-github-actions/auth@v0'
         with:
@@ -28,12 +28,3 @@ jobs:
           
           # inference
           python3 src/inference/inference.py
-
-      - name: Show result
-        run: |
-          echo "## model result" >> report.md
-          cml-publish score.json --md >> report.md
-          vl2png score.json -s 1.5 > plot.png
-          cml publish --md plot.png >> report.md
-
-          cml-send-comment report.md
