@@ -48,7 +48,7 @@ features = list(features)
 
 # train
 train = feat
-get_Xy_and_model_for_asset(train, 'goss')
+get_Xy_and_model_for_asset(train, 'goss', n_fold, features, params)
 
 # model result
 models = []
