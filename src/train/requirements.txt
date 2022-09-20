@@ -5,3 +5,4 @@ seaborn
 sklearn
 lightgbm
 pymysql
+dvc[gs]

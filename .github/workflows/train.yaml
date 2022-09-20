@@ -33,7 +33,7 @@ jobs:
       - name: upload models
         run: |
           dvc add models
-          dvc push 
+          dvc push
 
       - name: action-slack
         uses: 8398a7/action-slack@v3

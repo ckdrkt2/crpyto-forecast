@@ -25,4 +25,4 @@ jobs:
           python3 src/inference/inference.py
 
       - name: Display structure of download files
-          run: ls -R
+        run: ls -R
