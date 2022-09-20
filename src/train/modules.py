@@ -124,7 +124,7 @@ def get_Xy_and_model_for_asset(df_proc, model_type, n_fold, features, params):
                           )
         importances.append(model.feature_importance(importance_type='gain'))
 
-        file = f'trained_model_fold{split}.pkl'
+        file = f'models/trained_model_fold{split}.pkl'
         pickle.dump(model, open(file, 'wb'))
         print(f"Trained model was saved to 'trained_model_fold{split}.pkl'")
         print("")

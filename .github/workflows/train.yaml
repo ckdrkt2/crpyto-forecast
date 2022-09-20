@@ -30,11 +30,10 @@ jobs:
           cml-publish feature_importance.png --md >> report.md
           
           cml-send-comment report.md
-
-      - name: save model file
-        uses: actions/upload-artifact@v3
-        with:
-          path: trained_model_fold*
+      - name: upload models
+        run: |
+          dvc add models
+          dvc push 
 
       - name: action-slack
         uses: 8398a7/action-slack@v3

@@ -1,4 +1,4 @@
-name: train
+name: inference
 on:
   push:
     branches:
@@ -8,15 +8,21 @@ jobs:
     runs-on: [self-hosted]
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/download-artifact@v3
-      - name: Display structure of download files
-        run: ls -R
+      - uses: actions/setup-node@v2
+          with:
+            node-version: '16'
+      - uses: iterative/setup-cml@v1
       - name: model inference
         env:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          dvc pull models
+          
           # install requirements
           pip3 install -r src/train/requirements.txt
           
           # inference
           python3 src/inference/inference.py
+
+      - name: Display structure of download files
+          run: ls -R
