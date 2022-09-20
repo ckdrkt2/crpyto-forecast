@@ -29,5 +29,7 @@ while True:
 
         db_connection = create_engine('mysql+pymysql://root:tmaxfintech@192.168.153.110:31802/COINS')
         df.to_sql(name='ADA', con=db_connection, if_exists='append', index=False)
+        start = df['Time'].max() + 6000
 
     while time() - t < 60: pass
+    break
