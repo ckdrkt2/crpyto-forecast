@@ -33,5 +33,7 @@ jobs:
         run: |
           echo "## model result" >> report.md
           cml-publish score.json --md >> report.md
+          vl2png score.json -s 1.5 > plot.png
+          cml publish --md plot.png >> report.md
 
           cml-send-comment report.md
