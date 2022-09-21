@@ -32,4 +32,3 @@ while True:
         start = df['Time'].max() + 6000
 
     while time() - t < 60: pass
-    break

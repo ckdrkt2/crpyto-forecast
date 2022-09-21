@@ -3,6 +3,9 @@ on:
   push:
     branches:
       - 1min
+  schedule:
+    # https://crontab.guru/
+    - cron: '* * * * *'
 jobs:
   run:
     runs-on: [self-hosted]
