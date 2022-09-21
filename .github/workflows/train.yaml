@@ -1,8 +1,8 @@
 name: train
 on:
-    push:
-      branches:
-        - 1min
+  schedule:
+    # https://crontab.guru/
+    - cron: "0 0 * * *"
 jobs:
   cron:
     runs-on: [self-hosted]
