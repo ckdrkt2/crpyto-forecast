@@ -1,0 +1,29 @@
+name: inference
+on:
+  push:
+    branches:
+      - 1min
+  schedule:
+    # https://crontab.guru/
+    - cron: "*/5 * * * *"
+jobs:
+  cron:
+    runs-on: [self-hosted]
+    steps:
+      - uses: actions/checkout@v3
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v0'
+        with:
+          credentials_json: '${{ secrets.GOOGLE_CREDENTIALS }}'
+      - name: model inference
+        env:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # install requirements
+          pip3 install -r src/train/requirements.txt
+          
+          # download models
+          dvc pull models
+          
+          # inference
+          python3 src/inference/inference.py

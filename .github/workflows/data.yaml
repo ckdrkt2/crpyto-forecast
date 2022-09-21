@@ -1,0 +1,21 @@
+name: data
+on:
+  push:
+    branches:
+      - 1min
+      - main
+jobs:
+  run:
+    runs-on: [self-hosted]
+    steps:
+      - uses: actions/checkout@v3
+      - name: update_ADA_data
+        env:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          
+          # install requirements
+          pip3 install -r src/data/requirements.txt
+          
+          # load data 
+          python3 src/data/update_ada.py

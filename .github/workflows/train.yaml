@@ -1,11 +1,13 @@
-name: perturbation-test
-on: [push]
+name: train
+on:
+  schedule:
+    # https://crontab.guru/
+    - cron: "0 0 * * *"
 jobs:
-  run:
-    runs-on: [self-hosted,Linux,X64]
+  cron:
+    runs-on: [self-hosted]
     steps:
       - uses: actions/checkout@v3
-      # setup DVC & CML
       - uses: actions/setup-node@v2
         with:
           node-version: '16'
@@ -14,33 +16,32 @@ jobs:
         uses: 'google-github-actions/auth@v0'
         with:
           credentials_json: '${{ secrets.GOOGLE_CREDENTIALS }}'
-      - name: cml_run
+      - name: model train
         env:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Run the test
-          pip install -r requirements.txt
-          pip install dvc[gs]
-          pip install lightgbm
+          # install requirements
+          pip3 install -r src/train/requirements.txt
           
-          # load data 
-          dvc pull data
-          
-          python baseline.py
+          # train model
+          mkdir models
+          python3 src/train/train.py
           
           echo "## feature importances" >> report.md
           cml-publish feature_importance.png --md >> report.md
           
-          echo "## prediction result" >> report.md
-          cml-publish result.png --md >> report.md
           cml-send-comment report.md
+      - name: upload models
+        run: |
+          dvc add models
+          dvc push
 
       - name: action-slack
         uses: 8398a7/action-slack@v3
         with:
           status: ${{ job.status }}
-          author_name: Github Action Test # default: 8398a7@action-slack
+          author_name: Model Training
           fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
-        if: always() # Pick up events even if the job fails or is canceled.
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: always()
