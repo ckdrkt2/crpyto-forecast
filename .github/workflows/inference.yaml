@@ -5,7 +5,7 @@ on:
   #      - 1min
   schedule:
     # https://crontab.guru/
-    - cron: '* * * * *'
+    - cron: '*/1 * * * *'
 jobs:
   cron:
     runs-on: [self-hosted]
