@@ -2,7 +2,7 @@ name: inference
 on:
   schedule:
     # https://crontab.guru/
-    - cron: "*/5 * * * *"
+    # - cron: "*/5 * * * *"
 jobs:
   cron:
     runs-on: [self-hosted]
