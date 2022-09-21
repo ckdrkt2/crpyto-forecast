@@ -2,13 +2,14 @@ import pandas as pd
 import pickle
 import pymysql
 import datetime
+from time import time
 
 n_fold = 7
 symbol = "ADAUSDT"
 interval = "1m"
 
 while True:
-
+    t = time()
     # load data
     conn = pymysql.connect(host='192.168.153.110', port=31802, user='root', password='tmaxfintech', db='COINS', charset='utf8', autocommit=True, cursorclass=pymysql.cursors.DictCursor)
     cur = conn.cursor()
@@ -31,3 +32,5 @@ while True:
     # update predict price
     cur.execute("insert into P_ADA values (%s, %s);", (date, avg_of_model[0]))
     conn.close()
+
+    while time() - t < 60: pass
