@@ -1,8 +1,8 @@
 name: inference
 on:
-  push:
-    branches:
-      - 1min
+  #  push:
+  #    branches:
+  #      - 1min
   schedule:
     # https://crontab.guru/
     - cron: '* * * * *'
