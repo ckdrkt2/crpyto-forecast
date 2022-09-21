@@ -7,7 +7,7 @@ on:
     # https://crontab.guru/
     - cron: '* 0 * * *'
 jobs:
-  run:
+  cron:
     runs-on: [self-hosted]
     steps:
       - uses: actions/checkout@v3
