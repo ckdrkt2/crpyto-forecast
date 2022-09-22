@@ -1,8 +1,14 @@
 name: train
 on:
+<<<<<<< HEAD
   push:
     branches:
       - 1min
+=======
+  schedule:
+    # https://crontab.guru/
+    - cron: "0 0 * * *"
+>>>>>>> 65dfbf43d520a787f7b2d48945ca00515b2220d9
 jobs:
   cron:
     runs-on: [self-hosted]
@@ -27,7 +33,11 @@ jobs:
           mkdir models
           python3 src/train/train.py
           
+<<<<<<< HEAD
           echo "## feature importances " >> report.md
+=======
+          echo "## feature importances" >> report.md
+>>>>>>> 65dfbf43d520a787f7b2d48945ca00515b2220d9
           cml-publish feature_importance.png --md >> report.md
           
           cml-send-comment report.md

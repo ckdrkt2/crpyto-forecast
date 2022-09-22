@@ -23,7 +23,7 @@ params = {
         'metric': 'rmse',
         'boosting_type': 'goss',
         'max_depth': -1,
-    #     'num_leaves': 127,
+    #     'num_leaves': 127, 
         'verbose': -1,
         'max_bin': 255,
         'min_data_in_leaf':1000,
@@ -40,7 +40,7 @@ params = {
         'extra_seed': seed0,
         'zero_as_missing': True,
         "first_metric_only": True,
-        # "device": "gpu",
+        "device": "gpu",
     },
     'gbdt' : {
         'num_boost_round': 1000,
@@ -202,7 +202,6 @@ def get_Xy_and_model_for_asset(df_proc, model_type):
                           train_set=train_dataset,
                           valid_sets=[train_dataset, val_dataset],
                           valid_names=['tr', 'vl'],
-                          verbose_eval=100,
                           feval=correlation,
                           )
         importances.append(model.feature_importance(importance_type='gain'))

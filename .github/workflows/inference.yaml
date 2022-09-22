@@ -1,8 +1,14 @@
 name: inference
 on:
+<<<<<<< HEAD
   push:
     branches:
       - 1min
+=======
+  schedule:
+    # https://crontab.guru/
+    # - cron: "*/5 * * * *"
+>>>>>>> 65dfbf43d520a787f7b2d48945ca00515b2220d9
 jobs:
   cron:
     runs-on: [self-hosted]
@@ -17,10 +23,18 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # install requirements
+<<<<<<< HEAD
           pip3 install -r src/train/requirements.txt 
+=======
+          pip3 install -r src/train/requirements.txt
+>>>>>>> 65dfbf43d520a787f7b2d48945ca00515b2220d9
           
           # download models
           dvc pull models
           
           # inference
+<<<<<<< HEAD
           python3 src/inference/inference.py
+=======
+          python3 src/inference/inference.py
+>>>>>>> 65dfbf43d520a787f7b2d48945ca00515b2220d9
