@@ -1,0 +1,47 @@
+name: train
+on:
+  push:
+    branches:
+      - 1min
+jobs:
+  cron:
+    runs-on: [self-hosted]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - uses: iterative/setup-cml@v1
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v0'
+        with:
+          credentials_json: '${{ secrets.GOOGLE_CREDENTIALS }}'
+      - name: model train
+        env:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # install requirements
+          pip3 install -r src/train/requirements.txt
+          
+          # train model
+          mkdir models
+          python3 src/train/train.py
+          
+          echo "## feature importances " >> report.md
+          cml-publish feature_importance.png --md >> report.md
+          
+          cml-send-comment report.md
+      - name: upload models
+        run: |
+          dvc add models
+          dvc push
+
+      - name: action-slack
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          author_name: Model Training
+          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: always()
